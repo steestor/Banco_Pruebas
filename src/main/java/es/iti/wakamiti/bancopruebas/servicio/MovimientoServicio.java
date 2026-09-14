@@ -54,12 +54,16 @@ public class MovimientoServicio {
     public Movimiento transitar(Long id, EstadoMovimiento destino) {
         Movimiento movimiento = porId(id);
         EstadoMovimiento origen = movimiento.getEstado();
-        if (!TRANSICIONES.getOrDefault(origen, List.of()).contains(destino)) {
+        if (!esTransicionAdmitida(origen, destino)) {
             throw new TransicionInvalida("No se puede pasar de " + origen + " a " + destino);
         }
         aplicarEfectoSobreExistencias(movimiento, origen, destino);
         movimiento.setEstado(destino);
         return movimientos.save(movimiento);
+    }
+
+    private boolean esTransicionAdmitida(EstadoMovimiento origen, EstadoMovimiento destino) {
+        return TRANSICIONES.getOrDefault(origen, List.of()).contains(destino);
     }
 
     private void aplicarEfectoSobreExistencias(Movimiento movimiento, EstadoMovimiento origen,

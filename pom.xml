@@ -26,8 +26,11 @@
     <properties>
         <java.version>17</java.version>
         <wakamiti.plugin.version>2.9.0</wakamiti.plugin.version>
-        <!-- El .exec de la bateria Wakamiti va aparte del de los tests unitarios. -->
-        <jacoco.wakamiti.execution.data.file>${project.build.directory}/coverage-reports/jacoco-wakamiti.exec</jacoco.wakamiti.execution.data.file>
+        <!--
+          Ruta del wakamiti.yaml. El pipeline la sobreescribe por línea de comandos; el valor
+          de aquí es el que sirve cuando se lanza la batería a mano desde el propio proyecto.
+        -->
+        <wakamiti.configurationProfile>${project.basedir}/wakamiti/wakamiti.yaml</wakamiti.configurationProfile>
     </properties>
 
     <dependencies>
@@ -61,6 +64,19 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
+
+            <!--
+              Declarado en el build BASE, no dentro del perfil: la fase de cobertura del
+              pipeline invoca `mvn jacoco:report` sin activar ningún perfil, y por prefijo.
+              Dentro del perfil el prefijo no resuelve y el informe sale vacío sin error.
+              No se vincula prepare-agent: el agente lo inyecta el pipeline por
+              JAVA_TOOL_OPTIONS, y vincularlo aquí daría doble instrumentación.
+            -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.12</version>
+            </plugin>
         </plugins>
     </build>
 
@@ -73,15 +89,12 @@
             <id>wakamiti</id>
             <build>
                 <plugins>
-                    <plugin>
-                        <groupId>org.jacoco</groupId>
-                        <artifactId>jacoco-maven-plugin</artifactId>
-                        <configuration>
-                            <destFile>${jacoco.wakamiti.execution.data.file}</destFile>
-                            <append>true</append>
-                        </configuration>
-                    </plugin>
-
+                    <!--
+                      Aquí instrumenta el PIPELINE, inyectando el agente por JAVA_TOOL_OPTIONS.
+                      Los proyectos reales lo hacen al revés (lo gestiona su pom), así que ese
+                      camino del pipeline no lo ejercita nadie y es el que este banco de pruebas
+                      viene a cubrir.
+                    -->
                     <plugin>
                         <groupId>es.iti.wakamiti</groupId>
                         <artifactId>wakamiti-maven-plugin</artifactId>
@@ -96,6 +109,11 @@
                         </executions>
                         <configuration>
                             <logLevel>info</logLevel>
+                            <!--
+                              Sin esto el plugin no carga el wakamiti.yaml y el plan muere con
+                              "No resource types configured": no llega a descubrir ni una feature.
+                            -->
+                            <configurationFiles>${wakamiti.configurationProfile}</configurationFiles>
                             <properties>
                                 <tagFilter>not ignore</tagFilter>
                                 <!--
@@ -133,6 +151,38 @@
                             </dependency>
                         </dependencies>
                     </plugin>
+
+                    <!--
+                      Arranca la aplicación antes de la batería y la para después. Sin esto
+                      Wakamiti lanza sus peticiones contra un puerto donde no escucha nadie y
+                      todos los escenarios REST fallan con "Connection refused".
+                    -->
+                    <plugin>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-maven-plugin</artifactId>
+                        <configuration>
+                            <fork>true</fork>
+                            <wait>60000</wait>
+                            <systemPropertyVariables>
+                                <server.port>8080</server.port>
+                            </systemPropertyVariables>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>pre-integration-test</id>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                            </execution>
+                            <execution>
+                                <id>post-integration-test</id>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+
                 </plugins>
             </build>
         </profile>

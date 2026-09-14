@@ -32,7 +32,7 @@ wakamiti:
 
   database:
     connection:
-      url: jdbc:postgresql://localhost:5432/banco_pruebas
+      url: jdbc:postgresql://wakamiti-postgres-banco:5432/banco_pruebas
       username: banco
       password: banco
       driver: org.postgresql.Driver

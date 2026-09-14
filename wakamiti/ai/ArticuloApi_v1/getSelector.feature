@@ -1,5 +1,5 @@
 #language: es
-@ArticuloApiV1 @FID-ia_articulo_selector
+@ArticuloApiV1 @ArticuloControlador @FID-ia_articulo_selector
 Característica: Selector de artículos generado por IA - GET /api/v1/articulos
   Como: consumidor del almacén
   Quiero: recuperar el selector de artículos

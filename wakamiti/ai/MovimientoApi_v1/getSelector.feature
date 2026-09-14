@@ -1,5 +1,5 @@
 #language: es
-@MovimientoApiV1 @FID-ia_movimiento_selector
+@MovimientoApiV1 @MovimientoControlador @FID-ia_movimiento_selector
 Característica: Selector de movimientos generado por IA - GET /api/v1/movimientos/{id}
   Como: consumidor del almacén
   Quiero: recuperar un movimiento concreto

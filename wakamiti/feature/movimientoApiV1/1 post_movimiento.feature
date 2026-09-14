@@ -1,5 +1,5 @@
 #language: es
-@MovimientoApiV1 @FID-post_movimiento
+@MovimientoApiV1 @MovimientoControlador @FID-post_movimiento
 Característica: 1º Registrar un movimiento - POST /api/v1/movimientos
   Como: operario del almacén
   Quiero: registrar un movimiento sobre un artículo

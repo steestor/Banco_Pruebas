@@ -41,9 +41,9 @@ wakamiti:
   azure:
     enabled: false
 
-# NOTA DE CONVENCIÓN (no es configuración de Wakamiti)
+# NOTA (no es configuración de Wakamiti)
 #
-# Cada feature lleva, además de su tag de API, el nombre de la clase controladora que la
-# atiende (@ArticuloControlador,). No es decorativo: el análisis de
-# impacto empareja la clase Java cambiada con sus tests por ese token exacto. Sin él la
-# selección devuelve CERO tests, en silencio y sin ningún error.
+# El análisis de impacto empareja la clase Java cambiada con sus tests por el nombre del
+# recurso, ignorando sufijos de tipo y de versión: un tag `@ArticuloApiV1` casa con un
+# controlador `ArticuloController` o `ArticuloControlador`. Basta con que el tag nombre el
+# recurso; no hace falta repetir el nombre de la clase.

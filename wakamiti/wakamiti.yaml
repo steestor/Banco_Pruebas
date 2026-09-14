@@ -1,0 +1,42 @@
+wakamiti:
+  resourceTypes:
+    - gherkin
+
+  launcher:
+    modules:
+      - es.iti.wakamiti:rest-wakamiti-plugin:2.9.3
+      - es.iti.wakamiti:db-wakamiti-plugin:3.7.0
+      - es.iti.wakamiti:html-report-wakamiti-plugin:2.8.0
+      - org.postgresql:postgresql:42.5.4
+
+  outputFilePath: result/wakamiti.json
+  htmlReport:
+    title: Wakamiti Banco de Pruebas
+    output: result/wakamiti Banco_Pruebas.html
+
+  idTagPattern: ID-.*
+  # Activado a propósito: obliga a que cada escenario lleve su @ID. Sin esto no se
+  # ejercita la validación que aparta los escenarios sin identificar.
+  strictTestCaseID: true
+  outputFilePerTestCase: true
+  outputFilePerTestCasePath: result/multipleJsons/%DATE%%TIME%
+
+  log:
+    level: info
+
+  rest:
+    baseURL: http://localhost:8080
+    # Sin umbral, cualquier respuesta >= 400 abortaría el escenario y no se podrían
+    # comprobar los caminos de error, que son la mitad de la batería.
+    httpCodeThreshold: 999
+
+  database:
+    connection:
+      url: jdbc:postgresql://localhost:5432/banco_pruebas
+      username: banco
+      password: banco
+      driver: org.postgresql.Driver
+    enableCleanupUponCompletion: "false"
+
+  azure:
+    enabled: false

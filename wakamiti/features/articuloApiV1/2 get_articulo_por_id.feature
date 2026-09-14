@@ -1,5 +1,5 @@
 #language: es
-@ArticuloApiV1 @ArticuloControlador @FID-get_articulo_por_id
+@ArticuloApiV1 @FID-get_articulo_por_id
 Característica: 2º Consultar un artículo - GET /api/v1/articulos/{id}
   Como: consumidor del almacén
   Quiero: consultar un artículo concreto

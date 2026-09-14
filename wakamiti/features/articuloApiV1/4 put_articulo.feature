@@ -1,5 +1,5 @@
 #language: es
-@ArticuloApiV1 @ArticuloControlador @FID-put_articulo
+@ArticuloApiV1 @FID-put_articulo
 Característica: 4º Modificar un artículo - PUT /api/v1/articulos/{id}
   Como: responsable del almacén
   Quiero: modificar la descripción y las existencias de un artículo

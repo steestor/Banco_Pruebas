@@ -1,5 +1,5 @@
 #language: es
-@ProveedorApiV1 @ArticuloControlador @FID-proveedores_sueltos
+@ProveedorApiV1 @FID-proveedores_sueltos
 Característica: Consultar artículos por proveedor sin subdirectorio propio
   Como: consumidor del almacén
   Quiero: filtrar artículos por su proveedor

@@ -1,5 +1,5 @@
 #language: es
-@ArticuloApiV1 @ArticuloControlador @FID-delete_articulo
+@ArticuloApiV1 @FID-delete_articulo
 Característica: 5º Dar de baja un artículo - DELETE /api/v1/articulos/{id}
   Como: responsable del almacén
   Quiero: dar de baja un artículo

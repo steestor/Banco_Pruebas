@@ -1,5 +1,5 @@
 #language: es
-@ArticuloApiV1 @ArticuloControlador @FID-post_articulo
+@ArticuloApiV1 @FID-post_articulo
 Característica: 3º Dar de alta un artículo - POST /api/v1/articulos
   Como: responsable del almacén
   Quiero: dar de alta un artículo

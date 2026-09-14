@@ -1,5 +1,5 @@
 #language: es
-@MovimientoApiV1 @MovimientoControlador @FID-transiciones_movimiento
+@MovimientoApiV1 @FID-transiciones_movimiento
 Característica: 2º Transiciones de estado de un movimiento - POST /api/v1/movimientos/{id}/estado/{destino}
   Como: responsable del almacén
   Quiero: confirmar o anular un movimiento

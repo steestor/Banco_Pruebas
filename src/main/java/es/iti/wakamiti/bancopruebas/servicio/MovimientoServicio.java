@@ -63,7 +63,8 @@ public class MovimientoServicio {
     }
 
     private boolean esTransicionAdmitida(EstadoMovimiento origen, EstadoMovimiento destino) {
-        return TRANSICIONES.getOrDefault(origen, List.of()).contains(destino);
+        List<EstadoMovimiento> admitidas = TRANSICIONES.getOrDefault(origen, List.of());
+        return admitidas.contains(destino);
     }
 
     private void aplicarEfectoSobreExistencias(Movimiento movimiento, EstadoMovimiento origen,
